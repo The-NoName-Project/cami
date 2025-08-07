@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function Component() {
     return (
     <div className="flex flex-col min-h-dvh">
-      <header className="px-4 lg:px-6 h-14 flex items-center border-b">
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 lg:px-6 h-14 flex items-center border-b bg-white shadow-sm">
         <Link href="#" className="flex items-center justify-center gap-4 sm:gap-6" prefetch={false}>
           <Image src='/cami.png' alt="CAMI" width={50} height={50} />
           <span className="text-sm hover:underline underline-offset-4 font-bold">CAMI</span>
@@ -35,7 +35,7 @@ export default function Component() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-gray-900 to-gray-700 text-white">
-          <div className="container px-4 md:px-6 text-center">
+          <div className="px-4 md:px-6 text-center">
             <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none">
                 Comercializadora de Acero y Montajes Industriales
@@ -68,7 +68,7 @@ export default function Component() {
 
         {/* Proyectos y Maquinaria Section */}
         <section id="proyectos" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Nuestros Proyectos y Maquinaria</h2>
@@ -77,7 +77,7 @@ export default function Component() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
               <Card>
                 <Image
                   src="/edificio-en-construccion.png"
@@ -162,7 +162,7 @@ export default function Component() {
 
         {/* Misión, Visión, Objetivos Section */}
         <section id="nosotros" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Sobre Nosotros</h2>
@@ -173,7 +173,7 @@ export default function Component() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
               <Card className="flex flex-col items-center text-center p-6">
                 <Target className="h-12 w-12 text-primary mb-4" />
                 <CardTitle className="mb-2">Misión</CardTitle>
@@ -210,7 +210,7 @@ export default function Component() {
 
         {/* Maquinaria en Alquiler Section */}
         <section id="alquiler" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Maquinaria en Alquiler</h2>
@@ -219,7 +219,7 @@ export default function Component() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
               <Card>
                 <Image
                   src="/cargador-frontal.png"
@@ -318,7 +318,7 @@ export default function Component() {
               </Card>
             </div>
           <div className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Solicita tu Alquiler</h2>
