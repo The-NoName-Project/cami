@@ -24,6 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <head>
+        <link rel="icon" href="/cami.ico" sizes="any" />
+        <title>CAMI</title>
+        <meta name="description" content="Comercializadora de Acero y Montajes Industriales" />
+        <meta name="keywords" content="Acero, Montajes Industriales, Comercializadora" />
+    </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
