@@ -251,9 +251,9 @@ export default function Component() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
                 {
                     tools.map((tool: Tool) => (
-                        <Card key={tool.id}>
+                        <Card key={tool.id} className="hover:scale-105 transition-transform duration-300">
                             <Image
-                                src="/cargador-frontal.png"
+                                src={tool.image}
                                 width={400}
                                 height={300}
                                 alt="Cargador Frontal"
