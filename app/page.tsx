@@ -23,7 +23,7 @@ export default function Component() {
     const [state, formAction, isPending] = useActionState(submitQuoteForm, null)
     const [tool_id, setToolId] = useState("")
 
-    const [tools, setTools] = useState<Tool>([])
+    const [tools, setTools] = useState<Tool>()
 
     useEffect(() => {
         const fetchTools = async () => {
