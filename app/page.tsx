@@ -8,8 +8,37 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useActionState, useState, useEffect } from "react";
+import { submitQuoteForm } from "@/app/quote/submit_quote_form";
+
+type Tool = {
+    id: number;
+    name: string;
+    ability: string;
+    description: string;
+    image: string;
+}
 
 export default function Component() {
+    const [state, formAction, isPending] = useActionState(submitQuoteForm, null)
+    const [tool_id, setToolId] = useState("")
+
+    const [tools, setTools] = useState<Tool>([])
+
+    useEffect(() => {
+        const fetchTools = async () => {
+            try {
+                const res = await fetch("/api/tools")
+                const data = await res.json()
+                setTools(data)
+            } catch (error) {
+                console.error("Error al obtener tools:", error)
+            }
+        }
+
+        fetchTools()
+    }, [])
+
     return (
     <div className="flex flex-col min-h-dvh">
       <header className="fixed top-0 left-0 right-0 z-50 px-4 lg:px-6 h-14 flex items-center border-b bg-white shadow-sm">
@@ -220,22 +249,51 @@ export default function Component() {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
-              <Card>
-                <Image
-                  src="/cargador-frontal.png"
-                  width={400}
-                  height={300}
-                  alt="Cargador Frontal"
-                  className="rounded-t-lg object-cover w-full h-48"
-                />
-                <CardHeader>
-                  <CardTitle>Cargador Frontal Volvo L120H</CardTitle>
-                  <CardDescription>Ideal para carga de materiales y movimiento de tierras.</CardDescription>
-                </CardHeader>
-                <CardFooter className="flex justify-end">
-                  <Button>Alquilar Ahora</Button>
-                </CardFooter>
-              </Card>
+                {
+                    tools.map((tool: Tool) => (
+                        <Card key={tool.id}>
+                            <Image
+                                src="/cargador-frontal.png"
+                                width={400}
+                                height={300}
+                                alt="Cargador Frontal"
+                                className="rounded-t-lg object-cover w-full h-48"
+                            />
+                            <CardHeader>
+                                <CardTitle>{tool.name}</CardTitle>
+                                <CardDescription>{tool.description}</CardDescription>
+                            </CardHeader>
+                            <CardFooter className="flex justify-end">
+                                {
+                                    tool.ability === 'true' ?
+                                        (<Button>Alquilar Ahora</Button>)
+                                        :
+                                        (
+                                            <Button disabled={true}>
+                                                No Disponible
+                                            </Button>
+                                        )
+                                }
+                            </CardFooter>
+                        </Card>
+                    ))
+                }
+                <Card>
+                    <Image
+                        src="/cargador-frontal.png"
+                        width={400}
+                        height={300}
+                        alt="Cargador Frontal"
+                        className="rounded-t-lg object-cover w-full h-48"
+                    />
+                    <CardHeader>
+                        <CardTitle>Cargador Frontal Volvo L120H</CardTitle>
+                        <CardDescription>Ideal para carga de materiales y movimiento de tierras.</CardDescription>
+                    </CardHeader>
+                    <CardFooter className="flex justify-end">
+                        <Button>Alquilar Ahora</Button>
+                    </CardFooter>
+                </Card>
               <Card>
                 <Image
                   src="/volquete-en-construccion.png"
@@ -321,21 +379,14 @@ export default function Component() {
           <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Solicita tu Alquiler</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Solicita tu Cotización</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Completa el siguiente formulario y nos pondremos en contacto contigo para tu solicitud de alquiler.
+                  Completa el siguiente formulario y nos pondremos en contacto contigo para tu solicitud de cotización.
                 </p>
               </div>
             </div>
             <div className="mx-auto w-full max-w-2xl">
-              <form className="grid gap-6" onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const data = Object.fromEntries(formData.entries());
-                console.log("Formulario de Alquiler Enviado:", data);
-                alert("¡Tu solicitud ha sido enviada! Nos pondremos en contacto pronto.");
-                // Here you would typically send this data to a server or an API
-              }}>
+              <form action={formAction} className="grid gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Nombre Completo</Label>
@@ -348,48 +399,49 @@ export default function Component() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Teléfono</Label>
-                    <Input id="phone" name="phone" type="tel" placeholder="+XX XXX XXX XXX" />
+                    <Label htmlFor="number">Teléfono</Label>
+                    <Input id="number" name="number" type="tel" placeholder="+XX XXX XXX XXX" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="machineryType">Tipo de Maquinaria</Label>
-                    <Select name="machineryType" required>
+                    <Label htmlFor="tool_id">Tipo de Maquinaria</Label>
+                    <Select name="tool_id" required value={tool_id} onValueChange={setToolId}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecciona una opción" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="excavadora">Excavadora</SelectItem>
-                        <SelectItem value="cargador-frontal">Cargador Frontal</SelectItem>
-                        <SelectItem value="camion-volquete">Camión Volquete</SelectItem>
-                        <SelectItem value="motoniveladora">Motoniveladora</SelectItem>
-                        <SelectItem value="retroexcavadora">Retroexcavadora</SelectItem>
-                        <SelectItem value="rodillo-compactador">Rodillo Compactador</SelectItem>
-                        <SelectItem value="miniexcavadora">Miniexcavadora</SelectItem>
-                        <SelectItem value="torre-iluminacion">Torre de Iluminación</SelectItem>
-                        <SelectItem value="generador-electrico">Generador Eléctrico</SelectItem>
-                        <SelectItem value="otro">Otro (especificar en mensaje)</SelectItem>
+                          {tools.map((tool: Tool) => (
+                              <SelectItem key={tool.id} value={tool.id.toString()}>
+                                  {tool.name}
+                              </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate">Fecha de Inicio</Label>
-                    <Input id="startDate" name="startDate" type="date" required />
+                    <Label htmlFor="start_date">Fecha de Inicio</Label>
+                    <Input id="start_date" name="start_date" type="date" required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="endDate">Fecha de Fin</Label>
-                    <Input id="endDate" name="endDate" type="date" required />
+                    <Label htmlFor="end_date">Fecha de Fin</Label>
+                    <Input id="end_date" name="end_date" type="date" required />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Mensaje / Detalles Adicionales</Label>
                   <Textarea id="message" name="message" placeholder="Describe tus necesidades o proyecto" className="min-h-[100px]" />
                 </div>
-                <Button type="submit" className="w-full">
-                  Enviar Solicitud
+                <Button type="submit" className="w-full" disabled={isPending}>
+                    { isPending ? "Enviando" : "Enviar Solicitud" }
                 </Button>
               </form>
+                {state?.success === false && (
+                    <div className="mt-4 text-red-500 text-sm">Error: {state.message}</div>
+                )}
+                {state?.success === true && (
+                    <p className="mt-4 text-green-600 text-sm">{state.message}</p>
+                )}
             </div>
           </div>
         </div>
@@ -398,7 +450,7 @@ export default function Component() {
 
         {/* Contact Section */}
         <section id="contacto" className="w-full py-12 md:py-24 lg:py-32 border-t">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
+          <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
             <div className="space-y-3">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Contáctanos</h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -426,7 +478,7 @@ export default function Component() {
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Nombre de tu Empresa. Todos los derechos reservados.
+          &copy; {new Date().getFullYear()} CAMI. Todos los derechos reservados.
         </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
