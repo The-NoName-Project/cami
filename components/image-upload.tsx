@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Upload, X } from "lucide-react"
+import Image from "next/image";
 
 interface ImageUploadProps {
   onImageUpload: (url: string) => void
@@ -56,7 +57,7 @@ export function ImageUpload({ onImageUpload, currentImage }: ImageUploadProps) {
 
       {imageUrl ? (
         <div className="relative">
-          <img
+          <Image
             src={imageUrl || "/placeholder.svg"}
             alt="Preview"
             className="w-full h-48 object-cover rounded-lg border"

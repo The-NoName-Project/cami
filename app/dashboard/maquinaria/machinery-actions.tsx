@@ -94,7 +94,7 @@ export function MachineryActions({ machinery }: MachineryActionsProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente la maquinaria "{machinery.name}" de la base
+              Esta acción no se puede deshacer. Se eliminará permanentemente la maquinaria &#34;{machinery.name}&#34; de la base
               de datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
