@@ -14,7 +14,7 @@ import { submitQuoteForm } from "@/app/quote/submit_quote_form";
 type Tool = {
     id: number;
     name: string;
-    ability: string;
+    ability: boolean;
     description: string;
     image: string;
 }
@@ -265,7 +265,7 @@ export default function Component() {
                             </CardHeader>
                             <CardFooter className="flex justify-end">
                                 {
-                                    tool.ability === 'true' ?
+                                    tool.ability === true ?
                                         (<Button>Alquilar Ahora</Button>)
                                         :
                                         (

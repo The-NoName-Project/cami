@@ -9,7 +9,6 @@ export async function submitQuoteForm(
     _prevState: SubmitState,
     formData: FormData
 ): Promise<SubmitState> {
-    console.log(formData)
     const name = formData.get("name") as string
     const number = formData.get("number") as string
     const email = formData.get("email") as string
