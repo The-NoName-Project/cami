@@ -32,11 +32,10 @@ export function MachineryForm({machinery, onSuccess}: MachineryFormProps) {
         machinery?.ability ? "true" : "false"
     )
 
-    const action = machinery
-        ? (_: ActionResult | null, formData: FormData) =>
-            updateMachinery(machinery.id, formData)
-        : (_: ActionResult | null, formData: FormData) =>
-            createMachinery(formData)
+    const action: (_: ActionResult | null, formData: FormData) => Promise<ActionResult> = machinery
+        ? (_: ActionResult | null, formData: FormData) => updateMachinery(machinery.id, formData)
+        : (_: ActionResult | null, formData: FormData) => createMachinery(formData)
+
 
     const [state, formAction, isPending] = useActionState(action, null)
 
@@ -46,7 +45,7 @@ export function MachineryForm({machinery, onSuccess}: MachineryFormProps) {
         formData.set("ability", condition)
         formData.set("image", image)
 
-        const result = await formAction(formData)
+        const result = formAction(formData) as unknown as ActionResult | null
         if (result?.success && onSuccess) {
             onSuccess()
         }
