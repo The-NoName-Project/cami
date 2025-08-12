@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+    serverExternalPackages: ["@prisma/client", "prisma"],
+    outputFileTracing: true,
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+        if (isServer) {
+            config.plugins = [...config.plugins,
+                new webpack.IgnorePlugin({
+                    resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+                }),
+            ]
+        }
+        return config
+    },
 };
 
 export default nextConfig;
