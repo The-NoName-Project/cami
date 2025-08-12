@@ -23,7 +23,7 @@ export async function createMachinery(formData: FormData) {
       },
     })
 
-    revalidatePath("/dashboard/machinery")
+    revalidatePath("/dashboard/maquinaria")
     return { success: true, message: "Maquinaria creada exitosamente." }
   } catch (error) {
     console.error("Error creando maquinaria:", error)
@@ -50,7 +50,7 @@ export async function updateMachinery(id: number, formData: FormData) {
       },
     })
 
-    revalidatePath("/dashboard/machinery")
+    revalidatePath("/dashboard/maquinaria")
     return { success: true, message: "Maquinaria actualizada exitosamente." }
   } catch (error) {
     console.error("Error actualizando maquinaria:", error)
@@ -112,7 +112,7 @@ export async function toggleMachineryStatus(id: number) {
       data: { ability: !machinery.ability },
     })
 
-    revalidatePath("/dashboard/machinery")
+    revalidatePath("/dashboard/maquinaria")
     return { success: true, message: "Estado actualizado exitosamente." }
   } catch (error) {
     console.error("Error cambiando estado:", error)
