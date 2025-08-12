@@ -64,7 +64,7 @@ export function MachineryActions({ machinery }: MachineryActionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
-            <Link href={`/dashboard/machinery/edit/${machinery.id}`}>
+            <Link href={`/dashboard/maquinaria/edit/${machinery.id}`}>
               <Edit className="w-4 h-4 mr-2" />
               Editar
             </Link>

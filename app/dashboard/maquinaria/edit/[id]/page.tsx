@@ -13,7 +13,7 @@ interface EditMachineryPageProps {
 export default async function EditMachineryPage({ params }: EditMachineryPageProps) {
   const { id } = await params
   const user = await getCurrentUser()
-  const machinery = await getMachineryById(id)
+  const machinery = await getMachineryById(parseInt(id))
 
   if (!user) {
     return <div>No autorizado</div>
@@ -27,7 +27,7 @@ export default async function EditMachineryPage({ params }: EditMachineryPagePro
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
-          <Link href="/dashboard/machinery">
+          <Link href="/dashboard/maquinaria">
             <Button variant="outline" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Volver al listado

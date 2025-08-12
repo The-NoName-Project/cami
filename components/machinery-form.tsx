@@ -12,7 +12,7 @@ import {createMachinery, updateMachinery} from "@/app/actions/machinery"
 
 interface MachineryFormProps {
     machinery?: {
-        id: string
+        id: number
         name: string
         description: string | null
         ability: boolean
@@ -34,7 +34,7 @@ export function MachineryForm({machinery, onSuccess}: MachineryFormProps) {
 
     const action = machinery
         ? (_: ActionResult | null, formData: FormData) =>
-            updateMachinery(parseInt(machinery.id), formData)
+            updateMachinery(machinery.id, formData)
         : (_: ActionResult | null, formData: FormData) =>
             createMachinery(formData)
 

@@ -7,7 +7,6 @@ import { Plus } from "lucide-react"
 import Link from "next/link"
 import { MachineryActions } from "./machinery-actions"
 import AuthHeader from "@/components/ui/auth/auth-header";
-import Image from "next/image";
 
 export default async function MachineryPage() {
   const user = await getCurrentUser()
@@ -66,7 +65,7 @@ export default async function MachineryPage() {
               <Card key={machine.id} className="overflow-hidden">
                 {machine.image && (
                   <div className="aspect-video overflow-hidden">
-                    <Image
+                    <img
                       src={machine.image || "/placeholder.svg"}
                       alt={machine.name}
                       className="w-full h-full object-cover"
