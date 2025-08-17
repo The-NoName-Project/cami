@@ -24,7 +24,7 @@ export default async function AuthHeader() {
                     <div className="flex items-center gap-4">
                         <div className="flex items-center justify-between gap-2 mb-4">
                             <a href="/dashboard/maquinaria" className="text-gray-600 dark:text-gray-400">Maquinaria</a>
-                            <a className="text-gray-600 dark:text-gray-400">Proyectos</a>
+                            <a href="/dashboard/projects" className="text-gray-600 dark:text-gray-400">Proyectos</a>
                         </div>
                     </div>
                     <form action={logoutUser}>

@@ -19,12 +19,22 @@ model User {
 }
 
 model Projects {
-  id          Int      @id @default(autoincrement())
+  id          String         @id @default(uuid())
   name        String
-  description String
-  image       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  images      ProjectImage[]
+}
+
+model ProjectImage {
+  id        String   @id @default(uuid())
+  url       String
+  caption   String?
+  order     Int      @default(0)
+  projectId String
+  createdAt DateTime @default(now())
+  project   Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Tools {
