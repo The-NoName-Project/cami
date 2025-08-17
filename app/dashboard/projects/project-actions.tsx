@@ -31,7 +31,7 @@ interface ProjectActionsProps {
         }[];
         createdAt: Date
         updatedAt: Date
-        description: string
+        description: string | null;
     }
 }
 
