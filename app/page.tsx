@@ -33,7 +33,7 @@ export type Project = {
     }[];
     createdAt: Date
     updatedAt: Date
-    description: string
+    description: string | null;
 }
 
 export default function Component() {
