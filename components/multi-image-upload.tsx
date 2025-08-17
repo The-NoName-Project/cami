@@ -68,16 +68,7 @@ export function MultiImageUpload({ onImagesChange, initialImages = [] }: MultiIm
       setUploading(false)
     }
   }
-
-  const moveImage = (fromIndex: number, toIndex: number) => {
-    const updatedImages = [...images]
-    const [movedImage] = updatedImages.splice(fromIndex, 1)
-    updatedImages.splice(toIndex, 0, movedImage)
-    setImages(updatedImages)
-    onImagesChange(updatedImages)
-  }
-
-  return (
+    return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Label className="text-base font-medium">Imágenes del Proyecto</Label>
@@ -164,7 +155,7 @@ export function MultiImageUpload({ onImagesChange, initialImages = [] }: MultiIm
       )}
 
       {/* Hidden inputs para el formulario */}
-      {images.map((image, index) => (
+      {images.map((image) => (
         <div key={`hidden-${image.id}`}>
           <input type="hidden" name="imageUrls" value={image.url} />
           <input type="hidden" name="imageCaptions" value={image.caption} />
