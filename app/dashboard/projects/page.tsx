@@ -6,6 +6,7 @@ import {Plus} from "lucide-react"
 import Link from "next/link"
 import {ProjectActions} from "./project-actions"
 import AuthHeader from "@/components/ui/auth/auth-header";
+import {Project} from "@/app/page";
 
 export default async function ProjectsPage() {
     const user = await getCurrentUser()
@@ -49,7 +50,7 @@ export default async function ProjectsPage() {
                     </Card>
                 ) : (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {projects.map((project) => (
+                        {projects.map((project: Project) => (
                             <Card key={project.id} className="overflow-hidden">
                                 {project.images.length > 0 && (
                                     <div className="aspect-video overflow-hidden relative">

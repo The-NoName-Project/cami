@@ -20,7 +20,7 @@ type Tool = {
     image: string;
 }
 
-type Project = {
+export type Project = {
     id: string
     name: string
     images: {
