@@ -15,12 +15,23 @@ export async function submitQuoteForm(
     const details = formData.get("message") as string
     const start_date = new Date(formData.get("start_date") as string)
     const end_date = new Date(formData.get("end_date") as string)
-    const tool_id = parseInt(formData.get("tool_id") as string)
+    const resource_id = formData.get("resource_id") as string
+    let tool_id = 0
+    let project_id = ""
+
+    if (resource_id.startsWith("project-")) {
+        project_id = resource_id.replace("project-", "")
+    }
+
+    if (resource_id.startsWith("tool-")) {
+        tool_id = parseInt(resource_id.replace("tool-", ""))
+    }
+
 
     if (!email || !details || !name) {
         return { success: false, message: "El correo electrónico y el mensaje son obligatorios." }
     }
-
+    console.log(resource_id)
     try {
         await prisma.quote.create({
             data: {
@@ -30,7 +41,8 @@ export async function submitQuoteForm(
                 details,
                 start_date,
                 end_date,
-                tool_id,
+                ...(tool_id ? { tool_id } : {}),
+                ...(project_id ? { project_id } : {})
             },
         })
 

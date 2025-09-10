@@ -21,12 +21,6 @@ export default async function AuthHeader() {
                             {/*<p className="text-gray-600 dark:text-gray-400">Bienvenido, {user.name || user.email}</p>*/}
                         </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center justify-between gap-2 mb-4">
-                            <a href="/dashboard/maquinaria" className="text-gray-600 dark:text-gray-400">Maquinaria</a>
-                            <a href="/dashboard/projects" className="text-gray-600 dark:text-gray-400">Proyectos</a>
-                        </div>
-                    </div>
                     <form action={logoutUser}>
                         <Button variant="outline" type="submit">
                             <LogOut className="w-4 h-4 mr-2"/>

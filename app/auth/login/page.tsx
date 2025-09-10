@@ -14,7 +14,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md py-6">
         <CardHeader>
           <CardTitle>Acceso al Panel</CardTitle>
           <CardDescription>Inicia sesión o crea una cuenta para acceder al dashboard.</CardDescription>

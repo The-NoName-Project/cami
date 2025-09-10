@@ -7,6 +7,7 @@ import Link from "next/link"
 import {ProjectActions} from "./project-actions"
 import AuthHeader from "@/components/ui/auth/auth-header";
 import {Project} from "@/app/page";
+import {ImageCarousel} from "@/components/image-carusel";
 
 export default async function ProjectsPage() {
     const user = await getCurrentUser()
@@ -53,11 +54,12 @@ export default async function ProjectsPage() {
                         {projects.map((project: Project) => (
                             <Card key={project.id} className="overflow-hidden">
                                 {project.images.length > 0 && (
-                                    <div className="aspect-video overflow-hidden relative">
-                                        <img
-                                            src={project.images[0].url || "/placeholder.svg"}
-                                            alt={project.images[0].caption || project.name}
-                                            className="w-full h-full object-cover"
+                                    <div className="aspect-video overflow-hidden relative object-cover">
+                                        <ImageCarousel
+                                            images={project.images}
+                                            aspectRatio={"square"}
+                                            showThumbnails={project.images.length > 1}
+                                            showCounter={project.images.length > 1}
                                         />
                                         {project.images.length > 1 && (
                                             <div
@@ -74,7 +76,7 @@ export default async function ProjectsPage() {
                                     </div>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="space-y-3">
+                                    <div className="space-y-3 pb-1">
                                         {project.description && (
                                             <p className="text-sm text-gray-600 line-clamp-3 mt-3 pt-3 border-t">{project.description}</p>
                                         )}

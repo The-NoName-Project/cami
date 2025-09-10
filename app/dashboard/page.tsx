@@ -15,7 +15,8 @@ type Message = {
     details: string
     createdAt: Date
     updatedAt: Date
-    tool_id: number
+    tool_id: number | null
+    project_id: string | null
 }
 
 export default async function DashboardPage() {

@@ -25,6 +25,7 @@ model Projects {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   images      ProjectImage[]
+  quote       Quote[]
 }
 
 model ProjectImage {
@@ -56,8 +57,10 @@ model Quote {
   start_date DateTime
   end_date   DateTime
   details    String
-  tool_id    Int
+  tool_id    Int?
+  project_id String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  tools      Tools    @relation(fields: [tool_id], references: [id])
+  tools      Tools?    @relation(fields: [tool_id], references: [id])
+  projects   Projects? @relation(fields: [project_id], references: [id])
 }

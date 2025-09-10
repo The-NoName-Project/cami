@@ -3,14 +3,16 @@ import Link from "next/link"
 import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
-import {Target, Eye, Handshake} from 'lucide-react'
+import {Target, Eye, Handshake, X, PhoneCall, Mail, CircleDollarSign, Info} from 'lucide-react'
 import {Label} from "@/components/ui/label"
 import {Input} from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import {useActionState, useState, useEffect} from "react";
 import {submitQuoteForm} from "@/app/quote/submit_quote_form";
-import {ProjectActions} from "@/app/dashboard/projects/project-actions";
+import {ImageCarousel} from "@/components/image-carusel";
+import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
+import {toast} from "sonner";
 
 type Tool = {
     id: number;
@@ -38,7 +40,7 @@ export type Project = {
 
 export default function Component() {
     const [state, formAction, isPending] = useActionState(submitQuoteForm, null)
-    const [tool_id, setToolId] = useState("")
+    const [resource_id, setResourceId] = useState("")
 
     const [tools, setTools] = useState<Tool[]>([])
     const [projects, setProjects] = useState<Project[]>([])
@@ -74,7 +76,7 @@ export default function Component() {
                 className="fixed top-0 left-0 right-0 z-50 px-4 lg:px-6 h-14 flex items-center border-b bg-white shadow-sm">
                 <Link href="#" className="flex items-center justify-center gap-4 sm:gap-6" prefetch={false}>
                     <Image src='/cami.png' alt="CAMI" width={50} height={50}/>
-                    <span className="text-sm hover:underline underline-offset-4 font-bold">CAMI</span>
+                    <span className="hidden text-sm hover:underline underline-offset-4 font-bold md:inline">CAMI</span>
                 </Link>
                 <nav className="ml-auto flex gap-4 sm:gap-6">
                     <Link href="#proyectos" className="text-sm font-medium hover:underline underline-offset-4"
@@ -101,7 +103,7 @@ export default function Component() {
                     className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-gray-900 to-gray-700 text-white">
                     <div className="px-4 md:px-6 text-center">
                         <div className="space-y-4">
-                            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none">
+                            <h1 className="text-3xl font-bold tracking-tighter mt-10 md:mt-0 sm:text-5xl md:text-6xl lg:text-7xl/none">
                                 Comercializadora de Acero y Montajes Industriales
                             </h1>
                             <p className="mx-auto max-w-[800px] text-gray-200 md:text-4xl">
@@ -110,7 +112,7 @@ export default function Component() {
                             <p className="mx-auto max-w-[800px] text-gray-300 md:text-xl">
                                 Tu socio confiable para proyectos de construcción y alquiler de maquinaria pesada.
                             </p>
-                            <div className="space-x-4">
+                            <div className="flex flex-col m-3 w-auto md:flex md:flex-row md:space-x-4 items-center justify-center space-y-4 md:space-y-0 mt-10">
                                 <Link
                                     href="#alquiler"
                                     className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -157,35 +159,35 @@ export default function Component() {
                                     projects.map((project: Project) => (
                                         <Card key={project.id}
                                               className="hover:scale-105 transition-transform duration-300">
-                                            {project.images.length > 0 && (
-                                                <div className="aspect-video overflow-hidden relative">
-                                                    <img
-                                                        src={project.images[0].url || "/placeholder.svg"}
-                                                        alt={project.images[0].caption || project.name}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                    {project.images.length > 1 && (
-                                                        <div
-                                                            className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
-                                                            +{project.images.length - 1} más
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                            <CardHeader className="pb-3">
-                                                <div className="flex items-start justify-between">
-                                                    <CardTitle
-                                                        className="text-lg line-clamp-2">{project.name}</CardTitle>
-                                                    <ProjectActions project={project}/>
-                                                </div>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <div className="space-y-3">
-                                                    {project.description && (
-                                                        <p className="text-sm text-gray-600 line-clamp-3 mt-3 pt-3 border-t">{project.description}</p>
-                                                    )}
-                                                </div>
-                                            </CardContent>
+                                                {project.images.length > 0 && (
+                                                    <div className="aspect-video overflow-hidden relative">
+                                                        <ImageCarousel
+                                                            images={project.images}
+                                                            aspectRatio={"square"}
+                                                            showThumbnails={project.images.length > 1}
+                                                            showCounter={project.images.length > 1}
+                                                        />
+                                                        {project.images.length > 1 && (
+                                                            <div
+                                                                className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                                                                +{project.images.length - 1} más
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                <CardHeader className="pb-3">
+                                                    <div className="flex items-start justify-between">
+                                                        <CardTitle
+                                                            className="text-lg line-clamp-2">{project.name}</CardTitle>
+                                                    </div>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <div className="space-y-3">
+                                                        {project.description && (
+                                                            <p className="text-sm text-gray-600 line-clamp-3 mt-3 pt-3 border-t">{project.description}</p>
+                                                        )}
+                                                    </div>
+                                                </CardContent>
                                         </Card>
                                     ))
                                 )
@@ -302,7 +304,7 @@ export default function Component() {
                                     )
                             }
                         </div>
-                        <div className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
+                        <div className="w-full py-12 md:py-24 lg:py-32 bg-gray-50" id="cotizacion">
                             <div className="px-4 md:px-6">
                                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                                     <div className="space-y-2">
@@ -334,18 +336,37 @@ export default function Component() {
                                                        placeholder="+XX XXX XXX XXX"/>
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="tool_id">Tipo de Maquinaria</Label>
-                                                <Select name="tool_id" required value={tool_id}
-                                                        onValueChange={setToolId}>
+                                                <Label htmlFor="resource_id">Tipo de Maquinaria o Proyecto</Label>
+                                                <Select name="resource_id" required value={resource_id}
+                                                        onValueChange={setResourceId}>
                                                     <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecciona una opción"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {tools.map((tool: Tool) => (
-                                                            <SelectItem key={tool.id} value={tool.id.toString()}>
-                                                                {tool.name}
-                                                            </SelectItem>
-                                                        ))}
+                                                        {/* Grupo de proyectos */}
+                                                        {projects.length > 0 && (
+                                                            <>
+                                                                <div className="px-2 py-1 text-xs text-muted-foreground">Proyectos</div>
+                                                                {projects.map((project) => (
+                                                                    <SelectItem key={`project-${project.id}`} value={`project-${project.id}`}>
+                                                                        {project.name}
+                                                                    </SelectItem>
+                                                                ))}
+                                                                <div className="border-t my-1" />
+                                                            </>
+                                                        )}
+
+                                                        {/* Grupo de herramientas */}
+                                                        {tools.length > 0 && (
+                                                            <>
+                                                                <div className="px-2 py-1 text-xs text-muted-foreground">Maquinaria</div>
+                                                                {tools.map((tool) => (
+                                                                    <SelectItem key={`tool-${tool.id}`} value={`tool-${tool.id}`}>
+                                                                        {tool.name}
+                                                                    </SelectItem>
+                                                                ))}
+                                                            </>
+                                                        )}
                                                     </SelectContent>
                                                 </Select>
                                             </div>
@@ -367,7 +388,9 @@ export default function Component() {
                                                       className="min-h-[100px]"/>
                                         </div>
                                         <Button type="submit" className="w-full" disabled={isPending}>
-                                            {isPending ? "Enviando" : "Enviar Solicitud"}
+                                            {isPending ? "Enviando" : (<>
+                                                <Mail /> Enviar Solicitud
+                                            </>)}
                                         </Button>
                                     </form>
                                     {state?.success === false && (
@@ -393,19 +416,75 @@ export default function Component() {
                         </div>
                         <div className="flex justify-center space-x-4">
                             <Link
-                                href="#"
+                                href="#cotizacion"
                                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                                 prefetch={false}
                             >
-                                Enviar Mensaje
+                                <CircleDollarSign />&nbsp; Cotizar Ahora
                             </Link>
-                            <Link
-                                href="#"
-                                className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                                prefetch={false}
-                            >
-                                Llamar Ahora
-                            </Link>
+                            <Drawer>
+                                <DrawerTrigger className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                                    <PhoneCall className="w-1/6" />&nbsp; Llamar Ahora
+                                </DrawerTrigger>
+                                <DrawerContent>
+                                    <DrawerHeader>
+                                        <DrawerTitle className="flex items-center justify-center gap-2">
+                                            <Info />&nbsp; Datos de Contacto
+                                        </DrawerTitle>
+                                        <div className="mt-2"></div>
+                                        <div className="flex flex-col items-center md:flex-row md:justify-around md:gap-4">
+                                            <DrawerDescription className="m-4">
+                                                <span className="font-bold text-lg text-black">
+                                                    Ing. Miguel Angel Montes de Oca Rodriguez.
+                                                </span>
+                                                <div className="mt-2"></div>
+                                                <div className="flex items-center justify-around gap-2">
+                                                    <Button variant="outline" onClick={() => {
+                                                        window.location.href = "mailto:miguel.mdeor@hotmail.com";
+                                                        toast("Enviando correo electronico.");
+                                                    }}>
+                                                        <Mail /> Correo Electronico
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                            window.location.href = "tel:+527226943645";
+                                                            toast("Llamando al numero de telefono.")}}>
+                                                        <PhoneCall />Llamar
+                                                    </Button>
+                                                </div>
+                                            </DrawerDescription>
+                                            <DrawerDescription className="m-4">
+                                                <span className="font-bold text-lg text-black">
+                                                    Ing. José Miguel Montes de Oca Ramirez.
+                                                </span>
+                                                <div className="mt-2"></div>
+                                                <div className="flex items-center justify-around gap-2">
+                                                    <Button variant="outline" onClick={() => {
+                                                        window.location.href = "mailto:jose_miguel_cami@hotmail.com";
+                                                        toast("Enviando correo electronico.");
+                                                    }}>
+                                                        <Mail /> Correo Electronico
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                            window.location.href = "tel:+527206677973";
+                                                            toast("Llamando al numero de telefono.")
+                                                        }}>
+                                                            <PhoneCall />Llamar
+                                                    </Button>
+                                                </div>
+                                            </DrawerDescription>
+                                        </div>
+                                    </DrawerHeader>
+                                    <DrawerFooter>
+                                        <DrawerClose>
+                                            <Button variant="outline"><X /> Cerrar</Button>
+                                        </DrawerClose>
+                                    </DrawerFooter>
+                                </DrawerContent>
+                            </Drawer>
                         </div>
                     </div>
                 </section>
