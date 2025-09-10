@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Home, FolderOpen, Wrench, Users, LogOut, Menu, X, Mail } from "lucide-react"
+import { Home, FolderOpen, Wrench, LogOut, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image";
 
@@ -24,11 +24,6 @@ const menuItems = [
         href: "/dashboard",
         icon: Home,
     },
-    // {
-    //     title: "Mensajes",
-    //     href: "/dashboard/messages",
-    //     icon: Mail,
-    // },
     {
         title: "Proyectos",
         href: "/dashboard/projects",
@@ -38,12 +33,7 @@ const menuItems = [
         title: "Maquinaria",
         href: "/dashboard/maquinaria",
         icon: Wrench,
-    },
-    // {
-    //     title: "Usuarios",
-    //     href: "/dashboard/users",
-    //     icon: Users,
-    // },
+    }
 ]
 
 export function Sidebar({ user, onLogout }: SidebarProps) {
